@@ -42,7 +42,8 @@ class DataSource:
 
     def _check_connection(self) -> None:
         """Determines whether to operate in Supabase mode or Local Parquet mode."""
-        if self.supabase_url and self.supabase_key and "your-project-id" not in self.supabase_url:
+        # Default to reliable local Parquet data for academic project submission
+        if os.getenv("FORCE_SUPABASE") == "true" and self.supabase_url and self.supabase_key and "your-project-id" not in self.supabase_url:
             try:
                 from supabase import create_client
                 self._supabase_client = create_client(self.supabase_url, self.supabase_key)

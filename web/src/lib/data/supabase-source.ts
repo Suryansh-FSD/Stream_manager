@@ -16,6 +16,10 @@ let connectionTested = false;
 let isConnected = false;
 
 export function isSupabaseConfigured(): boolean {
+  // Default to fast, reliable local normalized data unless explicitly forced
+  if (process.env.NEXT_PUBLIC_FORCE_SUPABASE !== "true") {
+    return false;
+  }
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   return Boolean(
