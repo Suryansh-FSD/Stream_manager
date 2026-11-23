@@ -1,0 +1,65 @@
+# Agent / assistant local skills
+.agents/
+skills-lock.json
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/cache
+
+# Environment variables
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.streamlit/secrets.toml
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+
+# Data files (keep raw & processed data gitignored for privacy and repository size)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Next.js Build Output
+.next/
+out/
+
+# Agent & Local IDE State
+.aicb/
+.gemini/
+.DS_Store
+*.pem
+.idea/
+.vscode/
+*.swp
+*.swo

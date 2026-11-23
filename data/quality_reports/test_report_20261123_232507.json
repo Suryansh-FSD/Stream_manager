@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-11-23T23:25:07.378889",
+  "summary": {
+    "total_input_records": 1,
+    "cleaned_records": 1,
+    "duplicates_removed": 0,
+    "total_track_artist_associations": 0
+  },
+  "missing_values": {
+    "track_title": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "artist_name": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "popularity": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "streams": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "danceability": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    }
+  },
+  "range_validation": {
+    "popularity": {
+      "present": true,
+      "evaluated_count": 1,
+      "invalid_count": 0,
+      "min": 75.0,
+      "max": 75.0,
+      "mean": 75.0
+    },
+    "streams": {
+      "present": true,
+      "evaluated_count": 1,
+      "invalid_count": 0,
+      "min": 1500000.0,
+      "max": 1500000.0,
+      "total_streams": 1500000.0
+    },
+    "release_date": {
+      "total_with_date": 0,
+      "missing_or_invalid_date_count": 1,
+      "date_precisions": {}
+    }
+  },
+  "audio_feature_validation": {
+    "danceability": {
+      "evaluated_count": 1,
+      "invalid_count": 0,
+      "min": 0.65,
+      "max": 0.65,
+      "mean": 0.65
+    }
+  },
+  "outliers": {
+    "streams": {
+      "count": 0,
+      "lower_bound": null,
+      "upper_bound": null
+    },
+    "popularity": {
+      "count": 0,
+      "lower_bound": null,
+      "upper_bound": null
+    }
+  },
+  "cleaning_decisions": [
+    "Test decision"
+  ]
+}

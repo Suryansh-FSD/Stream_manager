@@ -1,0 +1,232 @@
+{
+  "timestamp": "2026-11-23T22:32:44.182746",
+  "summary": {
+    "total_input_records": 305,
+    "cleaned_records": 299,
+    "duplicates_removed": 6,
+    "total_track_artist_associations": 504
+  },
+  "missing_values": {
+    "track_id": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "track_title": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "artist_name": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "album_name": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "release_date": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "popularity": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "streams": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "duration_ms": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "explicit": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "genre": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "danceability": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "energy": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "key": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "loudness": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "mode": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "speechiness": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "acousticness": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "instrumentalness": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "liveness": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "valence": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "tempo": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "time_signature": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "is_synthetic_benchmark": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "release_date_precision": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    },
+    "primary_artist": {
+      "missing_count": 0,
+      "missing_percentage": 0.0
+    }
+  },
+  "range_validation": {
+    "popularity": {
+      "present": true,
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 12.0,
+      "max": 100.0,
+      "mean": 65.83
+    },
+    "streams": {
+      "present": true,
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 75189.0,
+      "max": 34422981.0,
+      "total_streams": 522358910.0
+    },
+    "release_date": {
+      "total_with_date": 299,
+      "missing_or_invalid_date_count": 0,
+      "date_precisions": {
+        "day": 214,
+        "year": 46,
+        "month": 39
+      }
+    }
+  },
+  "audio_feature_validation": {
+    "danceability": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.143,
+      "max": 0.948,
+      "mean": 0.63
+    },
+    "energy": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.093,
+      "max": 0.972,
+      "mean": 0.569
+    },
+    "speechiness": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.02,
+      "max": 0.432,
+      "mean": 0.082
+    },
+    "acousticness": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.019,
+      "max": 0.792,
+      "mean": 0.287
+    },
+    "instrumentalness": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.0,
+      "max": 0.95,
+      "mean": 0.131
+    },
+    "liveness": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.03,
+      "max": 0.785,
+      "mean": 0.121
+    },
+    "valence": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 0.05,
+      "max": 0.947,
+      "mean": 0.497
+    },
+    "tempo": {
+      "evaluated_count": 299,
+      "invalid_count": 0,
+      "min": 60.0,
+      "max": 193.6,
+      "mean": 120.61
+    }
+  },
+  "outliers": {
+    "streams": {
+      "count": 29,
+      "lower_bound": -1781290.5,
+      "upper_bound": 3958401.5,
+      "min_outlier": 4151339.0,
+      "max_outlier": 34422981.0
+    },
+    "popularity": {
+      "count": 1,
+      "lower_bound": 17.5,
+      "upper_bound": 113.5,
+      "min_outlier": 12.0,
+      "max_outlier": 12.0
+    },
+    "duration_ms": {
+      "count": 2,
+      "lower_bound": 121598.25,
+      "upper_bound": 300696.25,
+      "min_outlier": 112128.0,
+      "max_outlier": 326559.0
+    },
+    "tempo": {
+      "count": 1,
+      "lower_bound": 55.28,
+      "upper_bound": 187.07,
+      "min_outlier": 193.6,
+      "max_outlier": 193.6
+    }
+  },
+  "cleaning_decisions": [
+    "Mapped 22 columns from input: {'track_id': 'track_id', 'track_name': 'track_title', 'artist_name': 'artist_name', 'album_name': 'album_name', 'release_date': 'release_date', 'popularity': 'popularity', 'streams': 'streams', 'duration_ms': 'duration_ms', 'explicit': 'explicit', 'genre': 'genre', 'danceability': 'danceability', 'energy': 'energy', 'key': 'key', 'loudness': 'loudness', 'mode': 'mode', 'speechiness': 'speechiness', 'acousticness': 'acousticness', 'instrumentalness': 'instrumentalness', 'liveness': 'liveness', 'valence': 'valence', 'tempo': 'tempo', 'time_signature': 'time_signature'}",
+    "Starting cleaning on 305 raw records.",
+    "Processed streams column as numerical bigint without inferring from popularity.",
+    "Detected and removed 6 duplicate track records."
+  ]
+}
