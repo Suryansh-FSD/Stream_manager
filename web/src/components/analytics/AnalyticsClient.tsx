@@ -159,7 +159,7 @@ export function AnalyticsClient() {
           </div>
           <iframe
             src={streamlitUrl}
-            className="w-full h-[750px] border-none"
+            className="w-full h-[820px] min-h-[760px] border-none rounded-b-2xl"
             title="Streamlit Analytics Studio"
           />
         </div>

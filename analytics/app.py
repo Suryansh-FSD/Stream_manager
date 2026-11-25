@@ -2,6 +2,14 @@
 Spotify Trends Analytics Studio - Main Application Entrypoint.
 A premium, dark music intelligence platform built with Streamlit, Plotly, and Pandas.
 """
+import sys
+from pathlib import Path
+
+# Ensure project root is in sys.path when running via `streamlit run analytics/app.py`
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 
 # 1. Page Configuration
@@ -22,23 +30,94 @@ CUSTOM_CSS = """
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     
-    /* Sidebar customization */
+    /* Minimalist header - unobtrusive */
+    header[data-testid="stHeader"] {
+        background-color: rgba(18, 18, 18, 0.8) !important;
+        backdrop-filter: blur(8px) !important;
+        height: 2.2rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    /* Main container: compact paddings so all content fits on screen */
+    .block-container {
+        padding-top: 1rem !important;
+        padding-bottom: 2rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        max-width: 100% !important;
+    }
+    
+    /* Responsive column spacing & prevent column squishing */
+    div[data-testid="stHorizontalBlock"] {
+        gap: 0.85rem !important;
+        align-items: stretch !important;
+    }
+    div[data-testid="column"] {
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+    
+    /* Sidebar customization & compact footprint */
     section[data-testid="stSidebar"] {
+        width: 275px !important;
+        min-width: 240px !important;
         background-color: #181818 !important;
         border-right: 1px solid #282828 !important;
     }
-    
-    /* Headers and typography */
-    h1, h2, h3, h4, h5, h6 {
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
+    section[data-testid="stSidebar"] > div {
+        padding: 1rem 0.85rem !important;
     }
     
-    /* Main container padding */
-    .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 3rem !important;
-        max-width: 96% !important;
+    /* Headers and typography */
+    h1 {
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.5px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.35rem !important;
+        color: #FFFFFF !important;
+    }
+    h2 {
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.3px !important;
+        margin-top: 0.6rem !important;
+        margin-bottom: 0.35rem !important;
+        color: #FFFFFF !important;
+    }
+    h3 {
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.35rem !important;
+        color: #FFFFFF !important;
+    }
+    h4 {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        margin-top: 0.4rem !important;
+        margin-bottom: 0.25rem !important;
+        color: #E0E0E0 !important;
+    }
+    
+    /* Streamlit Plotly Chart full width fit */
+    div[data-testid="stPlotlyChart"] {
+        width: 100% !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+    div[data-testid="stPlotlyChart"] > div {
+        width: 100% !important;
+    }
+    
+    /* Streamlit Dataframe custom styling & responsiveness */
+    div[data-testid="stDataFrame"] {
+        background-color: #181818 !important;
+        border: 1px solid #282828 !important;
+        border-radius: 8px !important;
+        padding: 4px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
     }
     
     /* Input widgets & selectboxes */
@@ -47,14 +126,8 @@ CUSTOM_CSS = """
         border: 1px solid #333333 !important;
         color: #FFFFFF !important;
         border-radius: 6px !important;
-    }
-    
-    /* Streamlit Dataframe custom styling */
-    div[data-testid="stDataFrame"] {
-        background-color: #181818;
-        border: 1px solid #282828;
-        border-radius: 8px;
-        padding: 4px;
+        min-height: 36px !important;
+        font-size: 0.85rem !important;
     }
     
     /* Sliders */
@@ -64,8 +137,10 @@ CUSTOM_CSS = """
     
     /* Radio buttons for navigation */
     div[role="radiogroup"] label {
-        padding: 6px 12px !important;
+        padding: 5px 10px !important;
         border-radius: 6px !important;
+        font-size: 0.82rem !important;
+        margin-bottom: 2px !important;
         transition: background 0.15s ease !important;
     }
     div[role="radiogroup"] label:hover {
@@ -77,9 +152,10 @@ CUSTOM_CSS = """
         background-color: #1DB954 !important;
         color: #000000 !important;
         font-weight: 700 !important;
+        font-size: 0.85rem !important;
         border: none !important;
         border-radius: 500px !important;
-        padding: 8px 24px !important;
+        padding: 6px 20px !important;
         transition: transform 0.1s ease, background-color 0.1s ease !important;
     }
     .stButton > button:hover {
@@ -87,10 +163,10 @@ CUSTOM_CSS = """
         transform: scale(1.02) !important;
     }
     
-    /* Scrollbar */
+    /* Custom smooth scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
     }
     ::-webkit-scrollbar-track {
         background: #121212;

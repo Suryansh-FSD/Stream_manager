@@ -1,6 +1,13 @@
 """
 Page 4: Yearly Music Trends for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 
@@ -19,13 +26,14 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     )
 
     # Crucial Analytic Boundary Notice
-    st.markdown("""
-    <div style="background: #181818; border: 1px solid #333333; border-left: 4px solid #38bdf8; border-radius: 6px; padding: 12px 18px; margin-bottom: 24px; font-size: 0.85rem; color: #CCCCCC;">
-        <strong style="color: #38bdf8;">ANALYTIC NOTICE:</strong>
-        The charts below illustrate <strong>release-year cohort trends</strong> (tracks categorized by original publication year). 
-        They do <em>not</em> represent historical annual streaming activity or year-by-year listening history, as streaming snapshots reflect cumulative performance.
-    </div>
-    """, unsafe_allow_html=True)
+    notice_html = (
+        f'<div style="background:#181818;border:1px solid #333333;border-left:3px solid #38bdf8;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;color:#CCCCCC;">'
+        f'<strong style="color:#38bdf8;">ANALYTIC NOTICE:</strong> '
+        f'Charts illustrate <strong>release-year cohort trends</strong> (tracks by original publication year). '
+        f'They do <em>not</em> represent historical annual stream growth, as snapshots reflect cumulative streams.'
+        f'</div>'
+    )
+    st.markdown(notice_html, unsafe_allow_html=True)
 
     if df.empty:
         st.warning("No records match the selected filter criteria.")
@@ -49,7 +57,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         {"title": "Total Cohort Streams", "value": format_number(yearly["streams"].sum()), "subtitle": "All release cohorts"}
     ])
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Charts: Releases and Popularity by Year
     col_vol, col_pop = st.columns(2)
@@ -75,7 +83,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         )
         st.plotly_chart(fig_pop, use_container_width=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 3. Acoustic Evolution Over Time
     st.markdown("### Acoustic Feature Evolution Across Release Eras")
@@ -92,16 +100,19 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
                 y=yearly[feat],
                 mode="lines+markers",
                 name=feat.capitalize(),
-                line=dict(width=2.5, color=colors.get(feat, "#ffffff"))
+                line=dict(width=2.2, color=colors.get(feat, "#ffffff")),
+                marker=dict(size=5)
             ))
 
         fig_features.update_layout(
             paper_bgcolor="#121212",
             plot_bgcolor="#181818",
-            title="Mean Normalized Feature Values (0.0 to 1.0) Over Time",
-            font=dict(color="#B3B3B3", size=12),
-            xaxis=dict(gridcolor="#282828"),
-            yaxis=dict(gridcolor="#282828", range=[0, 1]),
-            margin=dict(l=30, r=30, t=50, b=40)
+            title=dict(text="Mean Normalized Feature Values (0.0 to 1.0) Over Time", font=dict(color="#FFFFFF", size=13)),
+            font=dict(color="#B3B3B3", size=11),
+            xaxis=dict(gridcolor="#282828", automargin=True, tickfont=dict(size=10)),
+            yaxis=dict(gridcolor="#282828", range=[0, 1], automargin=True, tickfont=dict(size=10)),
+            margin=dict(l=20, r=20, t=35, b=25),
+            height=300,
+            autosize=True
         )
         st.plotly_chart(fig_features, use_container_width=True)

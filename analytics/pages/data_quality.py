@@ -1,6 +1,13 @@
 """
 Page 7: Data Quality and Report for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 
@@ -37,7 +44,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         {"title": "Artist Pairings", "value": f"{summary.get('total_track_artist_associations', 0):,}", "subtitle": "Normalized track-artist rows"}
     ])
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Core Metrics Range Validation
     st.markdown("### Core Metrics Range Verification")
@@ -81,7 +88,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     if validation_rows:
         st.dataframe(pd.DataFrame(validation_rows), use_container_width=True, hide_index=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 3. Audio Features Range Table
     st.markdown("### Audio Features Range & Bounds Verification")
@@ -101,7 +108,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     if af_rows:
         st.dataframe(pd.DataFrame(af_rows), use_container_width=True, hide_index=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 4. Statistical Outliers Table (IQR)
     st.markdown("### Statistical Outlier Audit (1.5 × IQR Method)")
@@ -120,14 +127,16 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     if out_rows:
         st.dataframe(pd.DataFrame(out_rows), use_container_width=True, hide_index=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 5. Cleaning Decisions Log
     st.markdown("### Pipeline Cleaning Decisions Log")
     decisions = report.get("cleaning_decisions", [])
     if decisions:
-        st.markdown("""
-        <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 18px 24px; color: #CCCCCC; font-size: 0.88rem; line-height: 1.6;">
-        """ + "".join([f"<div style='margin-bottom: 6px;'>• {d}</div>" for d in decisions]) + """
-        </div>
-        """, unsafe_allow_html=True)
+        items_html = "".join([f"<div style='margin-bottom:4px;'>• {d}</div>" for d in decisions])
+        decisions_html = (
+            f'<div style="background:#181818;border:1px solid #282828;border-radius:8px;padding:12px 18px;color:#CCCCCC;font-size:0.82rem;line-height:1.5;">'
+            f'{items_html}'
+            f'</div>'
+        )
+        st.markdown(decisions_html, unsafe_allow_html=True)

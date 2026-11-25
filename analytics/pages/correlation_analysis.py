@@ -1,6 +1,13 @@
 """
 Page 6: Popularity and Correlation for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 from scipy import stats
@@ -19,13 +26,14 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     )
 
     # Crucial scientific notice
-    st.markdown("""
-    <div style="background: #181818; border: 1px solid #333333; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 12px 18px; margin-bottom: 24px; font-size: 0.85rem; color: #CCCCCC;">
-        <strong style="color: #f59e0b;">STATISTICAL NOTICE:</strong>
-        Correlation reflects observed statistical associations and does <em>not</em> imply causation. 
-        Additionally, benchmark synthetic records demonstrate pipeline capabilities and should not be cited as real-world industry conclusions.
-    </div>
-    """, unsafe_allow_html=True)
+    notice_html = (
+        f'<div style="background:#181818;border:1px solid #333333;border-left:3px solid #f59e0b;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;color:#CCCCCC;">'
+        f'<strong style="color:#f59e0b;">STATISTICAL NOTICE:</strong> '
+        f'Correlation reflects observed statistical associations and does <em>not</em> imply causation. '
+        f'Benchmark synthetic records demonstrate pipeline capabilities.'
+        f'</div>'
+    )
+    st.markdown(notice_html, unsafe_allow_html=True)
 
     if df.empty:
         st.warning("No records match the selected filter criteria.")
@@ -41,7 +49,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     else:
         st.info("Insufficient numeric features to compute correlation matrix.")
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Key Popularity Relationships
     st.markdown("### Popularity vs. Key Acoustic Drivers")

@@ -1,6 +1,13 @@
 """
 Page 3: Genre Intelligence for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 
@@ -40,7 +47,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         {"title": "Most Energetic", "value": f"{genre_summary.sort_values(by='energy', ascending=False).iloc[0]['primary_genre']}", "subtitle": f"{genre_summary['energy'].max():.2f} avg energy"}
     ])
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Charts Grid
     col_share, col_streams = st.columns(2)
@@ -65,7 +72,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 3. Audio Features across Genres
     st.markdown("### Musical Profiles across Genres")

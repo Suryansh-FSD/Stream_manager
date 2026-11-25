@@ -1,6 +1,13 @@
 """
 Page 1: Music Industry Overview for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 
@@ -39,7 +46,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         {"title": "Avg Track Length", "value": format_duration(kpis["avg_duration_sec"] * 1000), "subtitle": "Mean duration"}
     ])
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Top Tracks & Top Artists Grid
     col_tracks, col_artists = st.columns(2)
@@ -67,13 +74,13 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
                 top_artists,
                 x_col="total_streams",
                 y_col="primary_artist_name",
-                title="Top 10 Primary Artists (Uniquely Attributable Streams)"
+                title="Top 10 Primary Artists (Attributable Streams)"
             )
             st.plotly_chart(fig_artists, use_container_width=True)
         else:
             st.info("No artist data available for current selection.")
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 3. Genre Distribution & Release Cohorts
     col_genre, col_year = st.columns(2)
@@ -106,7 +113,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         else:
             st.info("No release date data available.")
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 4. Derived Data Observations
     st.markdown("### Executive Observations")
@@ -114,12 +121,13 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     top_artist_name = top_artists.iloc[0]["primary_artist_name"] if not top_artists.empty else "N/A"
     top_artist_streams = format_number(top_artists.iloc[0]["total_streams"]) if not top_artists.empty else "N/A"
 
-    st.markdown(f"""
-    <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 18px 24px; color: #E0E0E0; font-size: 0.92rem; line-height: 1.6;">
-        <ul style="margin: 0; padding-left: 20px;">
-            <li><strong>Leading Creator:</strong> <code>{top_artist_name}</code> accounts for the highest single-artist stream attribution with <strong>{top_artist_streams}</strong> cumulative streams across cataloged tracks.</li>
-            <li><strong>Market Dominance:</strong> <code>{top_genre_name}</code> represents the largest streaming share in the active filtered view.</li>
-            <li><strong>Collaborations Integrity:</strong> All multi-artist tracks have been normalized into primary attribution, ensuring that tracks featuring guest vocalists or producers do not duplicate overall catalog stream counts.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    obs_html = (
+        f'<div style="background:#181818;border:1px solid #282828;border-radius:8px;padding:12px 18px;color:#CCCCCC;font-size:0.85rem;line-height:1.5;">'
+        f'<ul style="margin:0;padding-left:18px;">'
+        f'<li><strong>Leading Creator:</strong> <code>{top_artist_name}</code> accounts for highest single-artist stream attribution with <strong>{top_artist_streams}</strong> cumulative streams.</li>'
+        f'<li><strong>Market Dominance:</strong> <code>{top_genre_name}</code> represents the largest streaming share in the active filtered view.</li>'
+        f'<li><strong>Collaborations Integrity:</strong> All multi-artist tracks normalized into primary attribution, preventing double-counting of streams.</li>'
+        f'</ul>'
+        f'</div>'
+    )
+    st.markdown(obs_html, unsafe_allow_html=True)

@@ -1,6 +1,13 @@
 """
 Page 5: Audio Feature Analysis for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -41,7 +48,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         {"title": "Mean Tempo", "value": f"{mean_tempo:.1f} BPM", "subtitle": "Average speed"}
     ])
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 2. Interactive Feature Distribution Selector
     st.markdown("### Audio Feature Distributions")
@@ -52,7 +59,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
     )
 
     stats = get_feature_distribution_stats(df, selected_feat)
-    col_hist, col_stats = st.columns([2, 1])
+    col_hist, col_stats = st.columns([1.8, 1])
 
     with col_hist:
         fig_hist = px.histogram(
@@ -65,26 +72,30 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         fig_hist.update_layout(
             paper_bgcolor="#121212",
             plot_bgcolor="#181818",
-            font=dict(color="#B3B3B3", size=12),
-            margin=dict(l=30, r=30, t=50, b=40),
-            xaxis=dict(gridcolor="#282828"),
-            yaxis=dict(gridcolor="#282828")
+            title=dict(font=dict(color="#FFFFFF", size=13)),
+            font=dict(color="#B3B3B3", size=11),
+            margin=dict(l=20, r=20, t=35, b=25),
+            xaxis=dict(gridcolor="#282828", automargin=True, tickfont=dict(size=10)),
+            yaxis=dict(gridcolor="#282828", automargin=True, tickfont=dict(size=10)),
+            height=290,
+            autosize=True
         )
         st.plotly_chart(fig_hist, use_container_width=True)
 
     with col_stats:
         st.markdown(f"#### {selected_feat.capitalize()} Summary")
-        st.markdown(f"""
-        <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 16px; font-size: 0.9rem; color: #E0E0E0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Mean:</span><strong>{stats.get('mean')}</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Median:</span><strong>{stats.get('median')}</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Std Deviation:</span><strong>{stats.get('std')}</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Min / Max:</span><strong>{stats.get('min')} / {stats.get('max')}</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>IQR (Q75 - Q25):</span><strong>{stats.get('iqr')}</strong></div>
-        </div>
-        """, unsafe_allow_html=True)
+        summary_html = (
+            f'<div style="background:#181818;border:1px solid #282828;border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#E0E0E0;">'
+            f'<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Mean:</span><strong>{stats.get("mean")}</strong></div>'
+            f'<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Median:</span><strong>{stats.get("median")}</strong></div>'
+            f'<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Std Deviation:</span><strong>{stats.get("std")}</strong></div>'
+            f'<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Min / Max:</span><strong>{stats.get("min")} / {stats.get("max")}</strong></div>'
+            f'<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>IQR:</span><strong>{stats.get("iqr")}</strong></div>'
+            f'</div>'
+        )
+        st.markdown(summary_html, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
     # 3. Overall Catalog Audio Radar
     st.markdown("### Catalog Audio Fingerprint")

@@ -1,6 +1,13 @@
 """
 Page 2: Artist Intelligence for Spotify Trends Analytics Studio.
 """
+import sys
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 import streamlit as st
 import pandas as pd
 
@@ -39,15 +46,15 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
 
     with col_rank:
         st.markdown("### Primary vs. Credited Streams Rule")
-        st.markdown("""
-        <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 18px; font-size: 0.88rem; color: #CCCCCC; line-height: 1.6;">
-            <p style="margin-top: 0; color: #1DB954; font-weight: 700;">COLLABORATION INTEGRITY PROTOCOL:</p>
-            When tracks feature multiple collaborators (e.g. <em>Artist A feat. Artist B</em>), 
-            the pipeline strictly attributes the track's stream total to the <strong>primary lead artist</strong> 
-            to prevent double-counting catalog totals. Credited featured artists are mapped in the <code>track_artists</code> 
-            junction table for discography lookup.
-        </div>
-        """, unsafe_allow_html=True)
+        proto_html = (
+            f'<div style="background:#181818;border:1px solid #282828;border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#CCCCCC;line-height:1.5;">'
+            f'<span style="color:#1DB954;font-weight:700;">COLLABORATION INTEGRITY PROTOCOL:</span> '
+            f'When tracks feature multiple collaborators (e.g. <em>Artist A feat. Artist B</em>), '
+            f'the pipeline strictly attributes the track\'s stream total to the <strong>primary lead artist</strong> '
+            f'to prevent double-counting. Credited featured artists are mapped in <code>track_artists</code> junction.'
+            f'</div>'
+        )
+        st.markdown(proto_html, unsafe_allow_html=True)
 
         if not top_artists.empty:
             st.markdown("#### Artist Leaderboard")
@@ -60,7 +67,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
             })[["Artist", "Tracks", "Streams", "Avg Popularity"]]
             st.dataframe(display_df, use_container_width=True, hide_index=True)
 
-    st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 30px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 16px 0;'>", unsafe_allow_html=True)
 
     # 2. Artist Deep Dive Explorer
     st.markdown("### Artist Deep Dive")
@@ -86,7 +93,7 @@ def render(df: pd.DataFrame, metadata: dict) -> None:
         audio_cols = ["danceability", "energy", "speechiness", "acousticness", "liveness", "valence"]
         available_audio = [c for c in audio_cols if c in artist_tracks.columns]
 
-        col_radar, col_disc = st.columns([1, 2])
+        col_radar, col_disc = st.columns([1, 1.25])
         with col_radar:
             if available_audio:
                 artist_audio_avg = [round(float(artist_tracks[c].mean()), 3) for c in available_audio]

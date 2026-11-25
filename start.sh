@@ -8,6 +8,7 @@ set -e
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_ROOT"
+export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 
 echo "======================================================="
 echo "🎵  STARTING SPOTIFY TRENDS (LOCAL ACADEMIC SUBMISSION) "
@@ -73,18 +74,20 @@ trap cleanup INT TERM
 
 # 3. Start Streamlit (port 8501)
 if is_port_in_use 8501; then
-  echo "ℹ️  Port 8501 is already occupied. Reusing existing Streamlit process."
-else
-  echo "🚀 Starting Streamlit Analytics Studio on port 8501..."
-  "$VENV_STREAMLIT" run analytics/app.py \
-    --server.port 8501 \
-    --server.headless true \
-    --server.enableCORS false \
-    --server.enableXsrfProtection false \
-    --browser.gatherUsageStats false \
-    > /tmp/spotify_trends_streamlit.log 2>&1 &
-  STREAMLIT_PID=$!
+  echo "🛑 Terminating existing process on port 8501 for a fresh start..."
+  kill $(lsof -ti :8501) 2>/dev/null || true
+  sleep 1
 fi
+
+echo "🚀 Starting Streamlit Analytics Studio on port 8501..."
+"$VENV_STREAMLIT" run analytics/app.py \
+  --server.port 8501 \
+  --server.headless true \
+  --server.enableCORS false \
+  --server.enableXsrfProtection false \
+  --browser.gatherUsageStats false \
+  > /tmp/spotify_trends_streamlit.log 2>&1 &
+STREAMLIT_PID=$!
 
 # 4. Start Next.js (port 3000)
 if is_port_in_use 3000; then

@@ -24,21 +24,21 @@ def render_sidebar(df: pd.DataFrame, metadata: Dict[str, Any]) -> Tuple[str, Dic
     with st.sidebar:
         # Branding Header
         st.markdown("""
-        <div style="padding: 10px 0 20px 0; border-bottom: 1px solid #282828; margin-bottom: 20px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: #1DB954; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: black;">
+        <div style="padding: 6px 0 14px 0; border-bottom: 1px solid #282828; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="background: #1DB954; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: bold; color: black; flex-shrink: 0;">
                     ♫
                 </div>
                 <div>
-                    <div style="color: #FFFFFF; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.5px;">Spotify Trends</div>
-                    <div style="color: #1DB954; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Analytics Studio</div>
+                    <div style="color: #FFFFFF; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1;">Spotify Trends</div>
+                    <div style="color: #1DB954; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Analytics Studio</div>
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
         # Navigation Menu
-        st.markdown("""<div style="color: #888888; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">NAVIGATE</div>""", unsafe_allow_html=True)
+        st.markdown("""<div style="color: #888888; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">NAVIGATE</div>""", unsafe_allow_html=True)
         selected_page = st.radio(
             "Navigation",
             PAGE_OPTIONS,
@@ -46,10 +46,10 @@ def render_sidebar(df: pd.DataFrame, metadata: Dict[str, Any]) -> Tuple[str, Dic
             label_visibility="collapsed"
         )
 
-        st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 24px 0 16px 0;'>", unsafe_allow_html=True)
+        st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 16px 0 12px 0;'>", unsafe_allow_html=True)
 
         # Global Filters Header
-        st.markdown("""<div style="color: #888888; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">GLOBAL FILTERS</div>""", unsafe_allow_html=True)
+        st.markdown("""<div style="color: #888888; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">GLOBAL FILTERS</div>""", unsafe_allow_html=True)
 
         applied_filters: Dict[str, Any] = {}
 
@@ -108,15 +108,15 @@ def render_sidebar(df: pd.DataFrame, metadata: Dict[str, Any]) -> Tuple[str, Dic
                     )
                     applied_filters["popularity_range"] = pop_range
 
-        st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 24px 0 16px 0;'>", unsafe_allow_html=True)
+        st.markdown("<hr style='border: 0; border-top: 1px solid #282828; margin: 16px 0 12px 0;'>", unsafe_allow_html=True)
 
         # Footer Status Card
-        mode_text = "Supabase PostgreSQL" if metadata.get("mode") == "supabase" else "Local Normalized Parquet"
+        mode_text = "Supabase PostgreSQL" if metadata.get("mode") == "supabase" else "Local Parquet"
         st.markdown(f"""
-        <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 12px; font-size: 0.75rem; color: #888888;">
-            <div style="font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">System Engine</div>
+        <div style="background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 10px; font-size: 0.72rem; color: #888888;">
+            <div style="font-weight: 600; color: #FFFFFF; margin-bottom: 3px;">System Engine</div>
             <div>Source: <span style="color: #1DB954;">{mode_text}</span></div>
-            <div>Cached: <span style="color: #E0E0E0;">Active (@st.cache_data)</span></div>
+            <div>Engine: <span style="color: #E0E0E0;">Active (@st.cache_data)</span></div>
         </div>
         """, unsafe_allow_html=True)
 
